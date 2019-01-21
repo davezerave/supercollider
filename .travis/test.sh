@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if [[ $TRAVIS_OS_NAME == linux ]]; then
-	export SCLANG=$TRAVIS_BUILD_DIR/BUILD/Install/bin/sclang
+set -eou pipefail
+
+if [[ "$TRAVIS_OS_NAME" == linux ]]; then
+  export SCLANG="$TRAVIS_BUILD_DIR/BUILD/Install/bin/sclang"
 else
-	export SCLANG=$TRAVIS_BUILD_DIR/BUILD/Install/SuperCollider/SuperCollider.app/Contents/MacOS/sclang
+  export SCLANG="$TRAVIS_BUILD_DIR/BUILD/Install/SuperCollider/SuperCollider.app/Contents/MacOS/sclang"
 fi
 
 # $TRAVIS_BUILD_DIR/testsuite/sclang/launch_test.py $SCLANG
 
-if [[ $QT == true ]]; then $TRAVIS_BUILD_DIR/.travis/qpm-test.sh; fi
+if [ -n "$QT" ]; then "$TRAVIS_BUILD_DIR/.travis/qpm-test.sh" ; fi
